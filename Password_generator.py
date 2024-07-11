@@ -1,73 +1,47 @@
-# import modules
 import string
 import random
 
-
-# store all characters in lists 
-s1 = list(string.ascii_lowercase)
-s2 = list(string.ascii_uppercase)
-s3 = list(string.digits)
-s4 = list(string.punctuation)
-
+# Store all characters in lists
+lowercase = list(string.ascii_lowercase)
+uppercase = list(string.ascii_uppercase)
+digits = list(string.digits)
+punctuations = list(string.punctuation)
 
 # Ask user about the number of characters
-user_input = input("How many characters do you want in your password? ")
-
-
-# check this input is it number? is it more than 8?
 while True:
+    try:
+        characters_number = int(input("How many characters do you want in your password? "))
+        if characters_number < 8:
+            print("Your password should be at least 8 characters long.")
+        else:
+            break
+    except ValueError:
+        print("Please enter a valid number.")
 
-	try:
+# Calculate number of characters for each category
+num_lower = round(characters_number * 0.3)
+num_upper = round(characters_number * 0.3)
+num_digits = round(characters_number * 0.2)
+num_punctuations = round(characters_number * 0.2)
 
-		characters_number = int(user_input)
+# Ensure total number of characters equals the user-specified number
+total_chars = num_lower + num_upper + num_digits + num_punctuations
+while total_chars < characters_number:
+    if num_lower + num_upper + num_digits + num_punctuations < characters_number:
+        num_lower += 1
+    total_chars = num_lower + num_upper + num_digits + num_punctuations
 
-		if characters_number < 8:
+# Generate password
+password_chars = (
+    random.sample(lowercase, num_lower) +
+    random.sample(uppercase, num_upper) +
+    random.sample(digits, num_digits) +
+    random.sample(punctuations, num_punctuations)
+)
 
-			print("Your number should be at least 8.")
+# Shuffle the resulting password characters
+random.shuffle(password_chars)
 
-			user_input = input("Please, Enter your number again: ")
-
-		else:
-
-			break
-
-	except:
-
-		print("Please, Enter numbers only.")
-
-		user_input = input("How many characters do you want in your password? ")
-
-
-# shuffle all lists
-random.shuffle(s1)
-random.shuffle(s2)
-random.shuffle(s3)
-random.shuffle(s4)
-
-
-# calculate 30% & 20% of number of characters
-part1 = round(characters_number * (30/100))
-part2 = round(characters_number * (20/100))
-
-
-# generation of the password (60% letters and 40% digits & punctuations)
-result = []
-
-for x in range(part1):
-
-	result.append(s1[x])
-	result.append(s2[x])
-
-for x in range(part2):
-
-	result.append(s3[x])
-	result.append(s4[x])
-
-
-# shuffle result
-random.shuffle(result)
-
-
-# join result
-password = "".join(result)
+# Join and display the result
+password = ''.join(password_chars)
 print("Strong Password: ", password)
