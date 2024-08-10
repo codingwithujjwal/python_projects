@@ -1,26 +1,29 @@
-# main.py
-import random
+
+# Generate random number
+
+import random 
 
 # define range and max_attempts
-lower_bound = 1
-upper_bound = 1000
-max_attempts = 10
+Start_number = int ( input(" Enter start number: \n")) # User input Start_number
+End_number = int ( input (" Enter end number number: \n ")) # User input End_number
+max_attempts = 10 # Here declare user have how many attempts
 
 # generate the secret number
-secret_number = random.randint(lower_bound, upper_bound)
+secret_number = random.randint(Start_number, End_number)
 
 
 # Get the user's guess
 def get_guess():
     while True:
         try:
-            guess = int(input(f"Guess a number between {lower_bound} and {upper_bound}: "))
-            if lower_bound <= guess <= upper_bound:
+            guess = int(input(f"Guess a number between {Start_number} and {End_number}: "))
+            if Start_number <= guess <= End_number:
                 return guess
             else:
                 print("Invalid input. Please enter a number within the specified range.")
         except ValueError:
             print("Invalid input. Please enter a valid number.")
+           
 
 # Validate guess
 def check_guess(guess, secret_number):
